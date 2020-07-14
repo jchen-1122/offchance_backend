@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const { ObjectId } = require('mongodb')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 const Raffle = require('./Raffle')
 const AddressSchema = require('./UserModels/Address')
 const CreditCardSchema = require('./UserModels/CreditCardSchema')
@@ -11,16 +13,21 @@ const UserSchema = mongoose.Schema({
     },
     username: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
-    // email and password types
+    // email and password types 
     password: {
         type: String,
         required: true
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
+    },
+    instaHandle: {
+        type: String
     },
     // phone number type
     phoneNumber: {
@@ -63,6 +70,19 @@ const UserSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    host_item: {
+        type: String
+    },
+    host_charity: {
+        type: String
+    },
+    host_details: {
+        type: String
+    },
+    informed: {
+        type: Boolean,
+        default: false
+    },
     rafflesPosted: {
         type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Raffle' }]
     },
@@ -72,7 +92,29 @@ const UserSchema = mongoose.Schema({
     // would be its own schema later
     analytics: {
         type: String
-    }
+    },
+    tokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }]
 })
 
-module.exports = mongoose.model('Users', UserSchema)
+UserSchema.methods.generateAuthToken = async function () {
+    const user = this
+    const token = jwt.sign({_id: user._id.toString()}, 'offchance')
+    user.tokens = user.tokens.concat({token: token})
+    await user.save()
+    return token
+}
+
+// hash plain text password
+UserSchema.pre('save', async function (next) {
+    const user = this
+    user.password = await bcrypt.hash(user.password, 8)
+    next()
+})
+
+const User = mongoose.model('Users', UserSchema)
+module.exports = User

@@ -1,26 +1,33 @@
 const express = require('express')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 const AddressSchema = require('../models/UserModels/Address')
 const CreditCardSchema = require('../models/UserModels/CreditCardSchema')
 const User = require('../models/User')
 const router = express.Router()
 
-router.get('/:id', async (req, res) => {
-    const _id = req.params.id
-    console.log('finding')
+// visible
+router.post('/login', async (req, res) => {
+    const email = req.body.email
+    const password = req.body.password
     try {
-        const user = await User.findOne({
-            _id
-        })
+        const user = await User.findOne({email})
         if (!user) {
-            return res.status(400).send()
+            res.status(400).send({error: 'unable to login'})
         }
+        const isMatch = await bcrypt.compare(password, user.password)
+        if (!isMatch) {
+            res.status(400).send({error: 'unable to login'})
+        }
+        // const token = generateAuthToken(user)
+        // console.log(token)
         res.send(user)
     } catch (e) {
-        res.status(500).send()
+        res.status(400).send(e)
     }
 })
 
-router.post('/', (req, res) => {
+router.post('/signup', (req, res) => {
     // const address = new AddressSchema({
     //     streetAddress: req.body.streetAddress,
     //     city: req.body.city,
@@ -41,11 +48,9 @@ router.post('/', (req, res) => {
         username: req.body.username,
         password: req.body.password,
         email: req.body.email,
-        phoneNumber: req.body.phoneNumber,
-        profilePicture: req.body.profilePicture,
-        walletChances: req.body.walletChances
+        instaHandle: req.body.instaHandle,
+        phoneNumber: req.body.phoneNumber
     })
-
     user.save()
     .then(data => {
         console.log(data)
@@ -53,6 +58,45 @@ router.post('/', (req, res) => {
     }).catch(e => {
         res.json({message: 'error'})
     })
+})
+
+router.patch('/edit', async (req, res) => {
+    const updates = Object.keys(req.body)
+    // const allowedUpdates = ['name', 'email', 'password']
+    // const isValidOperation = updates.every((update) => {
+    //     return allowedUpdates.includes(update)
+    // })
+
+    // if (!isValidOperation) {
+    //     return res.status(404).send({error: 'Invalid Updates!'})
+    // }
+
+    try {
+        updates.forEach((update) => {
+            req.user[update] = req.body[update]
+        })
+        await req.user.save()
+        
+        res.send(req.user)
+    } catch (e) {
+        res.status(404).send(e)
+    }   
+})
+
+// not visible
+router.get('/:id', async (req, res) => {
+    const _id = req.params.id
+    try {
+        const user = await User.findOne({
+            _id
+        })
+        if (!user) {
+            return res.status(400).send()
+        }
+        res.send(user)
+    } catch (e) {
+        res.status(500).send()
+    }
 })
 
 module.exports = router
