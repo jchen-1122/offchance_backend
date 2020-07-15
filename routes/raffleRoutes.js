@@ -35,7 +35,7 @@ router.patch('/edit/:id', async (req, res) => {
             _id
         })
         if (!user) {
-            return res.status(400).send({error: 'Document not found'})
+            return res.status(400).send({error: 'Document not found (Edit Raffle)'})
         }
         updates.forEach((update) => {
             user[update] = req.body[update]
@@ -56,7 +56,7 @@ router.get('/name/:id', async (req, res) => {
             "name": _id
         })
         if (!user) {
-            return res.status(400).send({error: 'Document not found'})
+            return res.status(400).send({error: 'Document not found (Raffle Name Search)'})
         }
         res.send(user)
     } catch (e) {
@@ -72,7 +72,7 @@ router.get('/:id', async (req, res) => {
             _id
         })
         if (!user) {
-            return res.status(400).send({error: 'Document not found'})
+            return res.status(400).send({error: 'Document not found (Raffle ID Search)'})
         }
         res.send(user)
     } catch (e) {
@@ -88,7 +88,7 @@ router.delete('/:id', async (req, res) => {
             _id
         })
         if (!user) {
-            return res.status(400).send({error: 'Document not found'})
+            return res.status(400).send({error: 'Document not found (Raffle Delete)'})
         }
         res.send(user)
     } catch (e) {
