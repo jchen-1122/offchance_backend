@@ -25,7 +25,7 @@ const RaffleSchema = mongoose.Schema({
         type: Number
     },
     startTime: {
-        type: Date,
+        type: String,
         require: true
     },
     // only for type 1
@@ -67,4 +67,5 @@ const RaffleSchema = mongoose.Schema({
 
 })
 
-module.exports = mongoose.model('Raffles', RaffleSchema)
+const Raffle = mongoose.model('Raffles', RaffleSchema)
+module.exports = Raffle
