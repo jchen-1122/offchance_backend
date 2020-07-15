@@ -34,6 +34,9 @@ router.patch('/edit/:id', async (req, res) => {
         let user = await Raffle.findOne({
             _id
         })
+        if (!user) {
+            return res.status(400).send({error: 'Document not found'})
+        }
         updates.forEach((update) => {
             user[update] = req.body[update]
         })
@@ -53,7 +56,7 @@ router.get('/name/:id', async (req, res) => {
             "name": _id
         })
         if (!user) {
-            return res.status(400).send()
+            return res.status(400).send({error: 'Document not found'})
         }
         res.send(user)
     } catch (e) {
@@ -69,7 +72,23 @@ router.get('/:id', async (req, res) => {
             _id
         })
         if (!user) {
-            return res.status(400).send()
+            return res.status(400).send({error: 'Document not found'})
+        }
+        res.send(user)
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
+// Delete by id
+router.delete('/:id', async (req, res) => {
+    const _id = req.params.id
+    try {
+        const user = await Raffle.findOneAndDelete({
+            _id
+        })
+        if (!user) {
+            return res.status(400).send({error: 'Document not found'})
         }
         res.send(user)
     } catch (e) {
