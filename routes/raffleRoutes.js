@@ -94,7 +94,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // Delete by id
-router.delete('/:id', async (req, res) => {
+router.delete('/del/:id', async (req, res) => {
     const _id = req.params.id
     try {
         const user = await Raffle.findOneAndDelete({

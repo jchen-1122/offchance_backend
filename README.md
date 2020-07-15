@@ -47,3 +47,77 @@ Limit (number of results) [5,6,7,8…]
 Notes:
 Default if not parameters are given returns all users in database
 Direction default is descending
+
+
+RAFFLE ROUTES DOCUMENTATION
+
+1. New Raffle (POST)
+
+Route: http://localhost:3000/raffle/new
+Request body:
+Required params:
+        name,
+        description,
+        type,
+        startTime,
+        amountLiked,
+        images,
+        sizes
+Optional params:
+        Everything else (see raffleSchema)
+Notes:
+        Approved and Archived are defaulted to false
+        Admin will use patch method to approve raffles
+
+
+2. Get all raffles (GET)
+
+Route: http://localhost:3000/raffle/all
+Required params: 
+        N/A
+Optional params:
+        N/A
+Notes:
+        Will be modified to suit loading more raffles while scrolling
+
+
+3. Edit raffle details (PATCH)
+
+Route: http://localhost:3000/raffle/edit/<id>
+Required params: 
+        ID of raffle to edit
+        Whatever data it is to modify
+Optional params:
+        N/A
+Notes:
+        N/A
+
+4. Search by raffle name (GET)
+
+Route: http://localhost:3000/raffle/name/<search>
+Required params: 
+        name of raffle to search for
+Optional params:
+        N/A
+Notes:
+        N/A
+
+5. Search by raffle ID (GET)
+
+Route: http://localhost:3000/raffle/<id>
+Required params: 
+        id of raffle to search for
+Optional params:
+        N/A
+Notes:
+        N/A
+
+6. Delete by raffle ID (DELETE)
+
+Route: http://localhost:3000/raffle/del/<id>
+Required params: 
+        id of raffle to delete
+Optional params:
+        N/A
+Notes:
+        EXCERCISE CAUTION WHEN DELETING DATA.
