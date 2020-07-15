@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const { ObjectId } = require('mongodb')
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
 const Raffle = require('./Raffle')
 const AddressSchema = require('./UserModels/Address')
 const CreditCardSchema = require('./UserModels/CreditCardSchema')
@@ -68,7 +67,8 @@ const UserSchema = mongoose.Schema({
     },
     isHost: {
         type: Boolean,
-        default: false
+        default: false,
+        required: true
     },
     host_item: {
         type: String
@@ -98,16 +98,16 @@ const UserSchema = mongoose.Schema({
             type: String,
             required: true
         }
-    }]
+    }],
+    isAdmin: {
+        type: Boolean,
+        default: false,
+        required: true
+    }
+
 })
 
-UserSchema.methods.generateAuthToken = async function () {
-    const user = this
-    const token = jwt.sign({_id: user._id.toString()}, 'offchance')
-    user.tokens = user.tokens.concat({token: token})
-    await user.save()
-    return token
-}
+
 
 // hash plain text password
 UserSchema.pre('save', async function (next) {
