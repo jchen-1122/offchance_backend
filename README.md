@@ -14,38 +14,38 @@
 
 # USER ROUTES API DOCUMENTATION
 
-### Signup User  
+## Signup User  
 Method: POST  
 Route: http://localhost:3000/user/signup  
 
 Required params:  
- - Name, username, password, email, instaHandle, phoneNumber  
+- Name, username, password, email, instaHandle, phoneNumber  
 
 Optional params:  
- - Everything else (see userSchema)  
+- Everything else (see userSchema)  
 
 Notes:  
- - Email must be unique  
- - Username must be unique  
+- Email must be unique  
+- Username must be unique  
 
 ## Login User
 Method: POST  
 Route: http://localhost:3000/user/login  
 
 Required params:  
- - Email, password required  
+- Email, password required  
 
 Notes:  
 - May be replaced soon  
 
-### Edit User
+## Edit User
 Method: PATCH  
 Route: http://localhost:3000/user/edit/ {**id**}   
 
 Request body:  
 - Everything is optional (see userSchema)  
 
-### Get User by ID  
+## Get User by ID  
 Method: GET  
 Route: http://localhost:3000/user/id/ {**id**}   
 
@@ -53,7 +53,7 @@ Notes:
 - Sends single user object by id  
 - If user not found, response is {message: ‘user not found’}  
 
-### Get Users by Query
+## Get Users by Query
 Method: GET  
 Route: http://localhost:3000/user/query?query=<query>&dir<dir>&val=<val>&limit=<limit>  
 
