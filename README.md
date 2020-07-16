@@ -1,9 +1,9 @@
 # offchance_backend
-1. [Signup User (POST)](##signup-user-(post))
+1. [Signup User (POST)](#signup-user-(post))
 
-2. [Login User (POST)](##login-user-(post))
+2. [Login User (POST)](##login-user)
 
-3. [Edit User (PATCH)](##edit-user-(patch))
+3. [Edit User (PATCH)](#edit-user
 
 
 [link3](#test)
@@ -23,7 +23,7 @@ Notes:
 Email must be unique
 Username must be unique
 
-## Login User (POST)
+## Login User
 
 Route: http://localhost:3000/user/login
 Request body:
@@ -31,7 +31,7 @@ Email, password required
 Notes:
 May be replaced soon
 
-## Edit User (PATCH)
+## Edit User
 
 Route: http://localhost:3000/user/edit/<id>
 Request body:
