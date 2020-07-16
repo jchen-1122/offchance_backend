@@ -1,14 +1,17 @@
 # offchance_backend
-[link](##-1.-Signup-User-(POST))
+1. [Signup User (POST)](##signup-user-(post))
 
-[link2](##-5.-search-by-raffle-id-(get))
+2. [Login User (POST)](##login-user-(post))
+
+3. [Edit User (PATCH)](##edit-user-(patch))
+
 
 [link3](#test)
 
 
 USER ROUTES API DOCUMENTATION
 
-## 1. Signup User (POST)
+## Signup User (POST)
 
 Route: http://localhost:3000/user/signup
 Request body:
@@ -20,7 +23,7 @@ Notes:
 Email must be unique
 Username must be unique
 
-2. Login User (POST)
+## Login User (POST)
 
 Route: http://localhost:3000/user/login
 Request body:
@@ -28,7 +31,7 @@ Email, password required
 Notes:
 May be replaced soon
 
-3. Edit User (PATCH)
+## Edit User (PATCH)
 
 Route: http://localhost:3000/user/edit/<id>
 Request body:
