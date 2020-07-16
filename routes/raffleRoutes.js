@@ -48,6 +48,19 @@ router.patch('/edit/:id', async (req, res) => {
     }   
 })
 
+// Get all raffles
+router.get('/all', async (req, res) => {
+    try {
+        const all = await Raffle.find({})
+        if (!all) {
+            return res.status(400).send({error: 'Document not found (No Raffles)'})
+        }
+        res.send(all)
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
 // Search by raffle name
 router.get('/name/:id', async (req, res) => {
     const _id = req.params.id
@@ -81,7 +94,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // Delete by id
-router.delete('/:id', async (req, res) => {
+router.delete('/del/:id', async (req, res) => {
     const _id = req.params.id
     try {
         const user = await Raffle.findOneAndDelete({
