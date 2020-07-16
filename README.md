@@ -5,11 +5,13 @@
 
 3. [Edit User (PATCH)](#edit-user)
 
+4. [Get User by ID (GET)](#get-user-by-id)
 
-[link3](#test)
+5. [Get User by Query (GET)](#get-user-by-query)
 
 
-USER ROUTES API DOCUMENTATION
+
+> USER ROUTES API DOCUMENTATION
 
 ## Signup User  
 Method: POST  
@@ -37,14 +39,14 @@ Notes:
 
 ## Edit User
 Method: PATCH  
-Route: http://localhost:3000/user/edit/{ **id** }   
+Route: http://localhost:3000/user/edit/ {**id**}   
 
 Request body:  
 - Everything is optional (see userSchema)  
 
 ## Get User by ID  
 Method: GET  
-Route: http://localhost:3000/user/id/{ **id** }   
+Route: http://localhost:3000/user/id/ {**id**}   
 
 Notes:  
 - Sends single user object by id  
@@ -66,7 +68,7 @@ Notes:
 - Default if not parameters are given returns all users in database  
 - Direction default is descending  
 
-RAFFLE ROUTES DOCUMENTATION
+> RAFFLE ROUTES DOCUMENTATION
 
 1. New Raffle (POST)
 
