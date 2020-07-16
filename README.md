@@ -3,7 +3,7 @@
 
 [link2](##-5.-search-by-raffle-id-(get))
 
-[link3](#-4.-Get-User-by-ID-(GET))
+[link3](#test)
 
 
 USER ROUTES API DOCUMENTATION
@@ -54,7 +54,7 @@ Notes:
 Default if not parameters are given returns all users in database
 Direction default is descending
 
-
+# Test
 RAFFLE ROUTES DOCUMENTATION
 
 1. New Raffle (POST)
