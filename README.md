@@ -37,14 +37,14 @@ Notes:
 
 ## Edit User
 Method: PATCH  
-Route: http://localhost:3000/user/edit/**id**  
+Route: http://localhost:3000/user/edit/{ **id** }   
 
 Request body:  
 - Everything is optional (see userSchema)  
 
 ## Get User by ID  
 Method: GET  
-Route: http://localhost:3000/user/id/**id**  
+Route: http://localhost:3000/user/id/{ **id** }   
 
 Notes:  
 - Sends single user object by id  
