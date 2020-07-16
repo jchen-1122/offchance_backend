@@ -1,7 +1,9 @@
 # offchance_backend
-[link](##-1.-signup-user-(post))
+[link](##-1.-Signup-User-(POST))
 
 [link2](##-5.-search-by-raffle-id-(get))
+
+[link3](#-4.-Get-User-by-ID-(GET))
 
 
 USER ROUTES API DOCUMENTATION
@@ -32,7 +34,7 @@ Route: http://localhost:3000/user/edit/<id>
 Request body:
 Everything is optional (see userSchema)
 
-4. Get User by ID (GET)
+# 4. Get User by ID (GET)
 
 Route: http://localhost:3000/user/id/<id>
 Notes:
