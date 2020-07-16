@@ -1,4 +1,5 @@
-# offchance_backend
+# Offchance Backend Routes  
+
 1. [Signup User (POST)](#signup-user)
 
 2. [Login User (POST)](#login-user)
@@ -27,7 +28,7 @@ Notes:
  - Email must be unique  
  - Username must be unique  
 
-### Login User
+## Login User
 Method: POST  
 Route: http://localhost:3000/user/login  
 
