@@ -1,7 +1,7 @@
 # offchance_backend
-1. [Signup User (POST)](#signup-user-(post))
+1. [Signup User (POST)](#signup-user)
 
-2. [Login User (POST)](##login-user)
+2. [Login User (POST)](#login-user)
 
 3. [Edit User (PATCH)](#edit-user)
 
@@ -11,19 +11,21 @@
 
 USER ROUTES API DOCUMENTATION
 
-## Signup User (POST)
+## Signup User  
+Method: POST  
 
-Route: http://localhost:3000/user/signup
-Request body:
-Required params:
-Name, username, password, email, instaHandle, phoneNumber
-Optional params:
-Everything else (see userSchema)
-Notes:
-Email must be unique
-Username must be unique
+Route: http://localhost:3000/user/signup  
+Request body:  
+Required params:  
+        Name, username, password, email, instaHandle, phoneNumber  
+Optional params:  
+        Everything else (see userSchema)  
+Notes:  
+        Email must be unique  
+        Username must be unique  
 
 ## Login User
+Method: POST
 
 Route: http://localhost:3000/user/login
 Request body:
@@ -32,6 +34,7 @@ Notes:
 May be replaced soon
 
 ## Edit User
+Method: PATCH
 
 Route: http://localhost:3000/user/edit/<id>
 Request body:
