@@ -13,8 +13,8 @@ USER ROUTES API DOCUMENTATION
 
 ## Signup User  
 Method: POST  
-
 Route: http://localhost:3000/user/signup  
+
 Required params:  
  - Name, username, password, email, instaHandle, phoneNumber  
 
@@ -26,41 +26,46 @@ Notes:
  - Username must be unique  
 
 ## Login User
-Method: POST
+Method: POST  
+Route: http://localhost:3000/user/login  
 
-Route: http://localhost:3000/user/login
-Email, password required
-Notes:
-May be replaced soon
+Required params:  
+ - Email, password required  
+
+Notes:  
+- May be replaced soon  
 
 ## Edit User
-Method: PATCH
+Method: PATCH  
+Route: http://localhost:3000/user/edit/**id**  
 
-Route: http://localhost:3000/user/edit/<id>
-Request body:
-Everything is optional (see userSchema)
+Request body:  
+- Everything is optional (see userSchema)  
 
-# 4. Get User by ID (GET)
+## Get User by ID  
+Method: GET  
+Route: http://localhost:3000/user/id/**id**  
 
-Route: http://localhost:3000/user/id/<id>
-Notes:
-Sends single user object by id
-If user not found, response is {message: ‘user not found’}
+Notes:  
+- Sends single user object by id  
+- If user not found, response is {message: ‘user not found’}  
 
-5. Get User(s) by Query (GET)
+## Get Users by Query
+Method: GET  
+Route: http://localhost:3000/user/query?query=<query>&dir<dir>&val=<val>&limit=<limit>  
 
-Route: http://localhost:3000/user/query?query=<query>&dir<dir>&val=<val>&limit=<limit>
-Parameters:
-Query (field in question) [ex: isHost, shoeSize]
-Dir (direction of sort) [asc, desc]
-Val (value of query) 
-To find all hosts, call query=isHost&val=true
-Limit (number of results) [5,6,7,8…]
-Notes:
-Default if not parameters are given returns all users in database
-Direction default is descending
+Parameters:  
+- Query (field in question) [ex: isHost, shoeSize]  
+- Dir (direction of sort) [asc, desc]  
+- Val (value of query)  
+- To find all hosts, call query=isHost&val=true  
+- Limit (number of results) [5,6,7,8…] 
 
-# Test
+Notes:  
+
+- Default if not parameters are given returns all users in database  
+- Direction default is descending  
+
 RAFFLE ROUTES DOCUMENTATION
 
 1. New Raffle (POST)
