@@ -15,20 +15,18 @@ USER ROUTES API DOCUMENTATION
 Method: POST  
 
 Route: http://localhost:3000/user/signup  
-Request body:  
 Required params:  
-        Name, username, password, email, instaHandle, phoneNumber  
+ * Name, username, password, email, instaHandle, phoneNumber  
 Optional params:  
-        Everything else (see userSchema)  
+ * Everything else (see userSchema)  
 Notes:  
-        Email must be unique  
-        Username must be unique  
+ * Email must be unique  
+ * Username must be unique  
 
 ## Login User
 Method: POST
 
 Route: http://localhost:3000/user/login
-Request body:
 Email, password required
 Notes:
 May be replaced soon
@@ -66,7 +64,6 @@ RAFFLE ROUTES DOCUMENTATION
 1. New Raffle (POST)
 
 Route: http://localhost:3000/raffle/new
-Request body:
 Required params:
         name,
         description,
