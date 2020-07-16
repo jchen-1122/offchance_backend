@@ -1,5 +1,7 @@
 # offchance_backend
-[link](#1.-signup-user-(post))
+[link](## 1.-signup-user-(post))
+[link2](## 5.-search-by-raffle-id-(get))
+
 
 USER ROUTES API DOCUMENTATION
 
@@ -93,7 +95,7 @@ Optional params:
 Notes:
         N/A
 
-4. Search by raffle name (GET)
+## 4. Search by raffle name (GET)
 
 Route: http://localhost:3000/raffle/name/<search>
 Required params: 
