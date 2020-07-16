@@ -7,13 +7,13 @@
 
 4. [Get User by ID (GET)](#get-user-by-id)
 
-5. [Get User by Query (GET)](#get-user-by-query)
+5. [Get Users by Query (GET)](#get-users-by-query)
 
 
 
-> USER ROUTES API DOCUMENTATION
+# USER ROUTES API DOCUMENTATION
 
-## Signup User  
+### Signup User  
 Method: POST  
 Route: http://localhost:3000/user/signup  
 
@@ -27,7 +27,7 @@ Notes:
  - Email must be unique  
  - Username must be unique  
 
-## Login User
+### Login User
 Method: POST  
 Route: http://localhost:3000/user/login  
 
@@ -37,14 +37,14 @@ Required params:
 Notes:  
 - May be replaced soon  
 
-## Edit User
+### Edit User
 Method: PATCH  
 Route: http://localhost:3000/user/edit/ {**id**}   
 
 Request body:  
 - Everything is optional (see userSchema)  
 
-## Get User by ID  
+### Get User by ID  
 Method: GET  
 Route: http://localhost:3000/user/id/ {**id**}   
 
@@ -52,7 +52,7 @@ Notes:
 - Sends single user object by id  
 - If user not found, response is {message: ‘user not found’}  
 
-## Get Users by Query
+### Get Users by Query
 Method: GET  
 Route: http://localhost:3000/user/query?query=<query>&dir<dir>&val=<val>&limit=<limit>  
 
@@ -68,7 +68,7 @@ Notes:
 - Default if not parameters are given returns all users in database  
 - Direction default is descending  
 
-> RAFFLE ROUTES DOCUMENTATION
+# RAFFLE ROUTES DOCUMENTATION
 
 1. New Raffle (POST)
 
