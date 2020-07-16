@@ -3,7 +3,7 @@
 
 2. [Login User (POST)](##login-user)
 
-3. [Edit User (PATCH)](#edit-user
+3. [Edit User (PATCH)](#edit-user)
 
 
 [link3](#test)
