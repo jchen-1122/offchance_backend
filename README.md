@@ -13,7 +13,8 @@
 3. [Edit Raffle Details (PATCH)](#edit-raffle-details)
 4. [Search By Raffle Name (GET)](#search-by-raffle-name)
 5. [Search By Raffle ID (GET)](#search-by-raffle-id)
-6. [Delete By Raffle ID (DELETE)](#delete-by-raffle-id)
+6. [Get Raffles by Query (GET)](##get-raffles-by-query)
+7. [Delete By Raffle ID (DELETE)](#delete-by-raffle-id)
 
 
 # USER ROUTES API DOCUMENTATION
@@ -59,14 +60,14 @@ Notes:
 
 ## Get Users by Query
 Method: GET  
-Route: http://localhost:3000/user/query?query= {**query**} &dir= {**dir**}&val= {**val**} &limit= {**limit**}  
+Route: http://localhost:3000/user/query?query= {**query**} &dir= {**dir**} &val= {**val**} &limit= {**limit**}  
 
 Parameters:  
 - Query (field in question) [ex: isHost, shoeSize]  
 - Dir (direction of sort) [asc, desc]  
 - Val (value of query)  
 - To find all hosts, call query=isHost&val=true  
-- Limit (number of results) [5,6,7,8…] 
+- Limit (number of results) [5,6,7,8…]  
 
 Notes:  
 
@@ -139,7 +140,7 @@ Notes:
 
 ## Search by raffle ID
 Method: GET
-Route: http://localhost:3000/raffle/ {**id**}  
+Route: http://localhost:3000/raffle/id/ {**id**}  
 
 Required params: 
 - id of raffle to search for  
@@ -149,6 +150,22 @@ Optional params:
 
 Notes:
 - N/A  
+
+## Get Raffles by Query
+Method: GET  
+Route: http://localhost:3000/raffle/query?query= {**query**} &dir= {**dir**} &val= {**val**} &limit= {**limit**}  
+
+Parameters:  
+- Query (field in question) [ex: startTime, type]  
+- Dir (direction of sort) [asc, desc]  
+- Val (value of query)  
+- Limit (number of results) [5,6,7,8…]  
+- Basically same as query for users  
+
+Notes:  
+
+- Default if not parameters are given returns all users in database  
+- Direction default is descending  
 
 ## Delete by raffle ID
 Method: DELETE
