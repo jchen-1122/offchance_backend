@@ -109,5 +109,33 @@ router.delete('/del/:id', async (req, res) => {
     }
 })
 
+router.get('/query/', async (req, res) => {
+    try {
+        const query = req.query.query
+        const dir = req.query.dir
+        const val = req.query.val
+        const limit = req.query.limit
+
+        const obj = {}
+        console.log('here')
+
+        if (val) {
+            obj[query] = val
+            const raffles = await Raffle.find(obj).limit((limit != null) ? parseInt(limit) : 0)
+            res.status(200).send(raffles)
+        } else if (dir) {
+            obj[query] = (dir === 'asc') ? 1 : -1
+            const raffles = await Raffle.find({}).sort(obj).limit((limit != null) ? parseInt(limit) : 0)
+            res.status(200).send(raffles)
+        } else {
+            const raffles = await Raffle.find({}).limit((limit != null) ? parseInt(limit) : 0)
+            res.status(200).send(raffles)
+        }
+    } catch (e) {
+        res.status(500).send({message: 'invalid query params'})
+    }
+    
+})
+
 
 module.exports = router

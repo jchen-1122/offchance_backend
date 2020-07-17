@@ -25,7 +25,7 @@ const RaffleSchema = mongoose.Schema({
         type: Number
     },
     startTime: {
-        type: String,
+        type: Number,
         require: true
     },
     // only for type 1
