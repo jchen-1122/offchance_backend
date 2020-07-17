@@ -108,13 +108,5 @@ const UserSchema = mongoose.Schema({
 })
 
 
-
-// hash plain text password
-UserSchema.pre('save', async function (next) {
-    const user = this
-    user.password = await bcrypt.hash(user.password, 8)
-    next()
-})
-
 const User = mongoose.model('Users', UserSchema)
 module.exports = User

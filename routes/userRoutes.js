@@ -28,7 +28,7 @@ router.post('/login', async (req, res) => {
     }
 })
 
-router.post('/signup', (req, res) => {
+router.post('/signup', async (req, res) => {
     // const address = new AddressSchema({
     //     streetAddress: req.body.streetAddress,
     //     city: req.body.city,
@@ -48,6 +48,7 @@ router.post('/signup', (req, res) => {
     Object.keys(req.body).forEach(el => {
         obj[el] = req.body[el]
     })
+    obj['password'] = await bcrypt.hash(obj['password'], 8)
     const user = new User(obj)
     
     user.save()
@@ -55,7 +56,7 @@ router.post('/signup', (req, res) => {
         console.log(data)
         res.json(data)
     }).catch(e => {
-        res.json({message: 'error'})
+        res.json(e)
     })
 })
 
