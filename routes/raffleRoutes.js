@@ -78,7 +78,7 @@ router.get('/name/:id', async (req, res) => {
 })
 
 // Search by id
-router.get('/:id', async (req, res) => {
+router.get('/id/:id', async (req, res) => {
     const _id = req.params.id
     try {
         const user = await Raffle.findOne({
@@ -109,7 +109,7 @@ router.delete('/del/:id', async (req, res) => {
     }
 })
 
-router.get('/query/', async (req, res) => {
+router.get('/query', async (req, res) => {
     try {
         const query = req.query.query
         const dir = req.query.dir
@@ -117,7 +117,6 @@ router.get('/query/', async (req, res) => {
         const limit = req.query.limit
 
         const obj = {}
-        console.log('here')
 
         if (val) {
             obj[query] = val
