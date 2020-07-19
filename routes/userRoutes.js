@@ -125,4 +125,62 @@ router.get('/query/', async (req, res) => {
     
 })
 
+router.post('/sendcode', async (req, res) => {
+    const email = req.body.email
+
+    const accountSid = process.env.TWILIO_ACCOUNT_SID
+    const authToken = process.env.TWILIO_AUTH_TOKEN
+    const serviceid = process.env.TWILIO_VERIFY_SERVICE
+    
+    const twilioClient = require("twilio")(accountSid, authToken)
+
+    try {
+        const user = await User.findOne({
+            "email": email
+        })
+        if (!user) {
+            return res.status(400).send({message: 'User not found'})
+        }
+        twilioClient.verify
+            .services(serviceid) //Put the Verification service SID here
+            .verifications.create({to: email, channel: "email"})
+            .then(verification => {
+                console.log(verification.sid);
+            });
+        res.send({done:"email sent"})
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
+router.post('/verifycode', async (req, res) => {
+    const email = req.body.email
+    const code = req.body.code
+
+    const accountSid = process.env.TWILIO_ACCOUNT_SID
+    const authToken = process.env.TWILIO_AUTH_TOKEN
+    const serviceid = process.env.TWILIO_VERIFY_SERVICE
+    
+    const twilioClient = require("twilio")(accountSid, authToken)
+
+    try {
+        const user = await User.findOne({
+            "email": email
+        })
+        if (!user) {
+            return res.status(400).send({message: 'User not found'})
+        }
+        twilioClient.verify
+            .services(serviceid) //Put the Verification service SID here
+            .verificationChecks.create({ to: email, code: code })
+            .then(verification_check => {
+                console.log(verification_check.status)
+                if (verification_check.status === 'approved') res.send({done: "correct code!"})
+                res.send({done: "invalid code"})
+            });
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
 module.exports = router
