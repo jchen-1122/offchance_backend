@@ -13,6 +13,12 @@ const UserRaffleSchema = mongoose.Schema({
     chances: {
         type: Number,
         require: true
+    },
+    sizeType:{
+        type: String
+    },
+    size:{
+        type: String
     }
 })
 

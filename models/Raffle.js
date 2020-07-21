@@ -1,32 +1,55 @@
 const mongoose = require('mongoose')
 const User = require('./User')
 const { ObjectId } = require('mongodb')
-const UserRaffleSchema = require('./RaffleModels/UserRaffleSchema')
+// const UserRaffleSchema = require('./RaffleModels/UserRaffleSchema')
+
+const UserRaffleSchema = mongoose.Schema({
+    userID: {
+        type: ObjectId,
+        require: true
+    },
+    amountDonated: {
+        type: Number,
+        require: true
+    },
+    chances: {
+        type: Number,
+        require: true
+    },
+    sizeType:{
+        type: String
+    },
+    size:{
+        type: String
+    }
+})
 
 const RaffleSchema = mongoose.Schema({
     name: {
         type: String,
-        require: true
+        required: true
     },
     description: {
         type: String,
         required: true
     },
+    // subdocument of userraffleschema : see https://mongoosejs.com/docs/subdocs.html
     users: {
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'UserRaffleSchema' }],
+        children: [UserRaffleSchema],
+        child: UserRaffleSchema
     },
-    // [1: donation goal, 2: chances set time, 3: enter to buy]
+    // [1: donation goal, 2: enter to buy]
     type: {
         type: Number,
-        require: true
+        required: true
     },
-    // only for type 3
+    // only for type 2
     productPrice: {
         type: Number
     },
     startTime: {
         type: Number,
-        require: true
+        required: true
     },
     // only for type 1
     donationGoal: {
@@ -37,17 +60,21 @@ const RaffleSchema = mongoose.Schema({
     },
     amountLiked: {
         type: Number,
-        require: true,
+        required: true,
         default: 0
     },
     images: {
         type: [String],
-        require: true
+        required: true
     },
     hostedBy: {
         type: ObjectId
     },
     charities: {
+        type: [String]
+    },
+    // for M, W, Y
+    sizeTypes: {
         type: [String]
     },
     sizes: {
@@ -56,13 +83,16 @@ const RaffleSchema = mongoose.Schema({
     },
     approved: {
         type: Boolean,
-        require: true,
+        required: true,
         default: false
     },
     archived: {
         type: Boolean,
-        require: true,
+        required: true,
         default: false
+    },
+    valuedAt: {
+        type: Number
     }
 
 })
