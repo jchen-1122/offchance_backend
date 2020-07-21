@@ -6,8 +6,8 @@
 3. [Edit User (PATCH)](#edit-user)
 4. [Get User by ID (GET)](#get-user-by-id)
 5. [Get Users by Query (GET)](#get-users-by-query)  
-6. [Twilio - Email Verification Code (POST)](#twilio-send-code-to-email)
-7. [Twilio - Check Verification Code (POST)](#twilio-verify-email-code)
+6. [Twilio - Email Verification Code (POST)](#twilio---send-code-to-email)
+7. [Twilio - Check Verification Code (POST)](#twilio---verify-email-code)
 
 [Raffle Routes](#raffle-routes-api-documentation)
 1. [New Raffle (GET)](#new-raffle)

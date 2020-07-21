@@ -91,6 +91,9 @@ router.patch('/edit/:id', async (req, res) => {
         updates.forEach((update) => {
             user[update] = req.body[update]
         })
+        if (req.body.password) {
+            user['password'] = await bcrypt.hash(user['password'], 8)
+        }
         await user.save()
         res.send(user)  
     } catch (e) {
