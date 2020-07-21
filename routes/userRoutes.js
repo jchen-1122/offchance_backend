@@ -91,6 +91,9 @@ router.patch('/edit/:id', async (req, res) => {
         updates.forEach((update) => {
             user[update] = req.body[update]
         })
+        if (req.body.password) {
+            user['password'] = await bcrypt.hash(user['password'], 8)
+        }
         await user.save()
         res.send(user)  
     } catch (e) {
@@ -140,13 +143,13 @@ router.post('/sendcode', async (req, res) => {
             "email": email
         })
         if (!user) {
-            return res.status(400).send({message: 'User not found'})
+            return res.status(400).send({error: 'User does not exist'})
         }
         twilioClient.verify
             .services(serviceid) //Put the Verification service SID here
             .verifications.create({to: email, channel: "email"})
             .then(verification => {
-                console.log(verification.sid);
+                console.log(verification);
             });
         res.send({done:"email sent"})
     } catch (e) {
@@ -169,15 +172,16 @@ router.post('/verifycode', async (req, res) => {
             "email": email
         })
         if (!user) {
-            return res.status(400).send({message: 'User not found'})
+            return res.status(400).send({error: 'User does not exist'})
         }
         twilioClient.verify
             .services(serviceid) //Put the Verification service SID here
             .verificationChecks.create({ to: email, code: code })
             .then(verification_check => {
                 console.log(verification_check.status)
-                if (verification_check.status === 'approved') res.send({done: "correct code!"})
-                res.send({done: "invalid code"})
+                if (verification_check.status === 'approved') res.send({done: "correct code", _id: user._id})
+                console.log(user._id)
+                res.send({error: "Invalid code"})
             });
     } catch (e) {
         res.status(500).send()

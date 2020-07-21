@@ -6,6 +6,8 @@
 3. [Edit User (PATCH)](#edit-user)
 4. [Get User by ID (GET)](#get-user-by-id)
 5. [Get Users by Query (GET)](#get-users-by-query)  
+6. [Twilio - Email Verification Code (POST)](#twilio---send-code-to-email)
+7. [Twilio - Check Verification Code (POST)](#twilio---verify-email-code)
 
 [Raffle Routes](#raffle-routes-api-documentation)
 1. [New Raffle (GET)](#new-raffle)
@@ -73,6 +75,31 @@ Notes:
 
 - Default if not parameters are given returns all users in database  
 - Direction default is descending  
+
+## Twilio - Send Code to Email  
+Method: POST  
+Route: http://localhost:3000/user/sendcode  
+
+Required params:  
+- Email required  
+
+Notes:  
+
+- Please don't spam this. One of Matt's emails was temporarily banned.  
+- He was quite pissed because hours were spent trying to 'debug'.
+
+## Twilio - Verify Email Code  
+Method: POST  
+Route: http://localhost:3000/user/verifycode  
+
+Required params:  
+- Email required  
+- Code required
+
+Notes:  
+
+- Code is a 6-digit numerical code that can only authenticate once.  
+- Once again please do not spam.
 
 # RAFFLE ROUTES API DOCUMENTATION
 
