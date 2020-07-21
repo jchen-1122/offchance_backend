@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "start": "source ./sendgrid.env && node app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
