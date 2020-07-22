@@ -28,6 +28,15 @@ const UserSchema = mongoose.Schema({
     instaHandle: {
         type: String
     },
+
+    // location
+    city: {
+        type: String
+    },
+    state: {
+        type: String
+    },
+
     // phone number type
     phoneNumber: {
         type: String,
@@ -47,29 +56,34 @@ const UserSchema = mongoose.Schema({
     shippingAddress: {
         type: { type: mongoose.Schema.Types.ObjectId, ref: 'AddressSchema' }
     },
+
     shoeSize: {
         type: Number
     },
     shirtSize: {
         type: Number
     }, 
+
     likedRaffles: {
         type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Raffle' }]
     },
     enteredRaffles: {
         type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Raffle' }]
     },
+
     following: {
         type: [ObjectId]
     },
     followers: {
         type: [ObjectId]
     },
+
     isHost: {
         type: Boolean,
         default: false,
         required: true
     },
+    // 3 Qs for requesting a business account
     host_item: {
         type: String
     },
@@ -79,12 +93,13 @@ const UserSchema = mongoose.Schema({
     host_details: {
         type: String
     },
+    rafflesPosted: {
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Raffle' }]
+    },
+
     informed: {
         type: Boolean,
         default: false
-    },
-    rafflesPosted: {
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Raffle' }]
     },
     referrals: {
         type: Number
@@ -93,12 +108,6 @@ const UserSchema = mongoose.Schema({
     analytics: {
         type: String
     },
-    tokens: [{
-        token: {
-            type: String,
-            required: true
-        }
-    }],
     isAdmin: {
         type: Boolean,
         default: false,
