@@ -11,6 +11,9 @@ const router = express.Router()
 router.post('/login', async (req, res) => {
     const email = req.body.email
     const password = req.body.password
+    if (password == null) {
+        res.status(400).send({error: 'unable to login'})
+    }
     try {
         const user = await User.findOne({email})
         if (!user) {
