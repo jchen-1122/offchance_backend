@@ -24,6 +24,17 @@ const UserRaffleSchema = mongoose.Schema({
     }
 })
 
+const WinnerSchema = mongoose.Schema({
+    userID: {
+        type: ObjectId,
+        require: true
+    },
+    reward: {
+        type: Number,
+        require: true
+    }
+})
+
 const RaffleSchema = mongoose.Schema({
     name: {
         type: String,
@@ -93,6 +104,10 @@ const RaffleSchema = mongoose.Schema({
     },
     valuedAt: {
         type: Number
+    },
+    winners: {
+        children: [WinnerSchema],
+        child: WinnerSchema
     }
 
 })
