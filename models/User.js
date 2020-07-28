@@ -54,14 +54,14 @@ const UserSchema = mongoose.Schema({
         default: 0
     },
     shippingAddress: {
-        type: { type: mongoose.Schema.Types.ObjectId, ref: 'AddressSchema' }
+        type: String
     },
 
     shoeSize: {
         type: Number
     },
     shirtSize: {
-        type: Number
+        type: String
     }, 
 
     likedRaffles: {

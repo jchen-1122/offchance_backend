@@ -132,6 +132,7 @@ router.get('/query/', async (req, res) => {
 })
 
 router.post('/sendcode', async (req, res) => {
+    console.log('here')
     const email = req.body.email
 
     const accountSid = process.env.TWILIO_ACCOUNT_SID

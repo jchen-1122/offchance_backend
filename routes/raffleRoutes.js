@@ -15,7 +15,8 @@ router.post('/new', (req, res) => {
         startTime: req.body.startTime,
         amountLiked: req.body.amountLiked,
         images: req.body.images,
-        sizes: req.body.sizes
+        sizes: req.body.sizes,
+        hostedBy: req.body.hostedBy
     })
     raffle.save()
     .then(data => {
