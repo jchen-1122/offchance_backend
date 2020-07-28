@@ -183,12 +183,56 @@ router.post('/verifycode', async (req, res) => {
             .then(verification_check => {
                 console.log(verification_check.status)
                 if (verification_check.status === 'approved') res.send({done: "correct code", _id: user._id})
-                console.log(user._id)
                 res.send({error: "Invalid code"})
             });
     } catch (e) {
         res.status(500).send()
     }
 })
+
+router.post('/sendphone', async (req, res) => {
+    const phone = '+1' + req.body.phoneNumber
+
+    const accountSid = process.env.TWILIO_ACCOUNT_SID
+    const authToken = process.env.TWILIO_AUTH_TOKEN
+    const serviceid = process.env.TWILIO_VERIFY_SERVICE
+    
+    const twilioClient = require("twilio")(accountSid, authToken)
+
+    try {
+        twilioClient.verify.services(serviceid)
+            .verifications
+            .create({to: phone, channel: 'sms'})
+            .then(verification => console.log(verification.status));
+        res.send({done:"email sent"})
+        } catch (e) {
+        res.status(500).send()
+    }
+})
+
+router.post('/verifyphone', async (req, res) => {
+    const phone = '+1' + req.body.phoneNumber
+    const code = req.body.code
+
+    const accountSid = process.env.TWILIO_ACCOUNT_SID
+    const authToken = process.env.TWILIO_AUTH_TOKEN
+    const serviceid = process.env.TWILIO_VERIFY_SERVICE
+    
+    const twilioClient = require("twilio")(accountSid, authToken)
+
+    try {
+        twilioClient.verify.services(serviceid)
+            .verificationChecks
+            .create({to: phone, code: code})
+            .then(verification_check => {
+                console.log(verification_check)
+                if (verification_check.status === 'approved') res.send({done: "correct code"})
+                res.send({error: "Invalid code"})
+            });
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
 
 module.exports = router
