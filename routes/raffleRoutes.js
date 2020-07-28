@@ -50,31 +50,6 @@ router.patch('/edit/:id', async (req, res) => {
 
 // Get all raffles
 router.get('/all', async (req, res) => {
-
-
-    /*const accountSid = process.env.TWILIO_ACCOUNT_SID;
-    const authToken = process.env.TWILIO_AUTH_TOKEN;
-    const serviceid = process.env.TWILIO_VERIFY_SERVICE;
-    
-    const twilioClient = require("twilio")(accountSid, authToken);
-    
-    twilioClient.verify
-      .services(serviceid) //Put the Verification service SID here
-      .verifications.create({to: "zhangtia@umich.edu", channel: "email"})
-      .then(verification => {
-        console.log(verification);
-      });
-
-      twilioClient.verify
-      .services('VEc673a1e5f406357368de39259a0959f4') //Put the Verification service SID here
-      .verificationChecks.create({ to: 'zhangtia@umich.edu', code: '446988' })
-      .then(verification_check => {console.log(verification_check.status)});
-
-      twilioClient.verify
-      .services(serviceid) //Put the Verification service SID here
-      .verificationChecks.create({ to: 'zhangtia@umich.edu', code: '894360' })
-      .then(verification_check => {console.log(verification_check.status)});*/
-
     try {
         const all = await Raffle.find({})
         if (!all) {

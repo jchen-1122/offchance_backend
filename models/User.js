@@ -65,7 +65,7 @@ const UserSchema = mongoose.Schema({
     }, 
 
     likedRaffles: {
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Raffle' }]
+        type: [ObjectId]
     },
     enteredRaffles: {
         type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Raffle' }]
