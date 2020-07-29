@@ -79,6 +79,29 @@ router.get('/id/:id', async (req, res) => {
     }
 })
 
+router.patch('/ids/', async (req, res) => {
+    const ids = req.body.ids
+    console.log(ids)
+    try {
+        const results = await User.find({
+            _id: {
+                $in: ids
+            }
+        })
+        console.log(results)
+
+        /*const user = await User.findOne({
+            _id
+        })
+        if (!user) {
+            return res.status(400).send()
+        }*/
+        res.send(results)
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
 router.patch('/edit/:id', async (req, res) => {
     const updates = Object.keys(req.body)
     const _id = req.params.id
