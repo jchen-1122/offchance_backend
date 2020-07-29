@@ -60,6 +60,10 @@ const RaffleSchema = mongoose.Schema({
     },
     startTime: {
         type: Number,
+        // required: true
+    },
+    drawingDuration: {
+        type: Number,
         required: true
     },
     // only for type 1
