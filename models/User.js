@@ -57,6 +57,10 @@ const UserSchema = mongoose.Schema({
         type: String
     },
 
+    // male, female, or youth
+    sizeType: {
+        type: String
+    },
     shoeSize: {
         type: Number
     },
