@@ -12,17 +12,20 @@ router.post('/new', (req, res) => {
         name: req.body.name,
         description: req.body.description,
         type: req.body.type,
-        startTime: req.body.startTime,
-        amountLiked: req.body.amountLiked,
+        //startTime: req.body.startTime,
+        //amountLiked: req.body.amountLiked,
         images: req.body.images,
         sizes: req.body.sizes,
-        hostedBy: req.body.hostedBy
+        hostedBy: req.body.hostedBy,
+        drawingDuration: req.body.drawingDuration,
+
     })
     raffle.save()
     .then(data => {
         console.log(data)
         res.json(data)
     }).catch(e => {
+        console.log(e)
         res.json({message: 'error'})
     })
 })
