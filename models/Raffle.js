@@ -21,6 +21,9 @@ const UserRaffleSchema = mongoose.Schema({
     },
     size:{
         type: String
+    },
+    timeDonated: {
+        type: Number
     }
 })
 
@@ -112,6 +115,10 @@ const RaffleSchema = mongoose.Schema({
     winners: {
         children: [WinnerSchema],
         child: WinnerSchema
+    },
+    // unix timestamp, last time someone donated
+    lastDonatedTo: {
+        type: Number
     }
 
 })
