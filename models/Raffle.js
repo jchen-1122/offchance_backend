@@ -67,7 +67,7 @@ const RaffleSchema = mongoose.Schema({
     },
     drawingDuration: {
         type: Number,
-        required: true
+        // required: true
     },
     // only for type 1
     donationGoal: {
