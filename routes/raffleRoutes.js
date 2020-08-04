@@ -113,6 +113,38 @@ router.delete('/del/:id', async (req, res) => {
     }
 })
 
+router.post('/win/:id', async (req, res) => {
+    const _id = req.params.id
+    try {
+        let raffle = await Raffle.findOne({
+            _id
+        })
+        if (!raffle) {
+            return res.status(400).send({error: 'Document not found (Set Raffle Winner)'})
+        }
+        //updates.forEach((update) => {
+        //    raffle[update] = req.body[update]
+        //})
+        let winArr = []
+        var count = 0
+        raffle.users.children.forEach((enter) => {
+            //console.log(enter)
+            winArr.push({
+                userID: enter.userID,
+                reward: count
+            })
+            if (count < 3) count++
+        })
+        raffle.winners.children = winArr
+        await raffle.save()
+        
+        res.send(raffle)
+    } catch (e) {
+        res.status(404).send(e)
+    }   
+})
+
+
 router.get('/query', async (req, res) => {
     try {
         const query = req.query.query
