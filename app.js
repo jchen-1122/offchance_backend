@@ -14,10 +14,12 @@ app.use('/user', userRoutes)
 app.use('/raffle', raffleRoutes)
 
 io.on('connection', (socket) => {
-    console.log('New Websocket Connetion 1') 
     socket.on('message', message => {
         console.log(message)
         io.emit('message', message)
+    })
+    socket.on('broadcast', message => {
+        socket.broadcast.emit('message', message);
     })
 })
 

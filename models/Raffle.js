@@ -119,6 +119,10 @@ const RaffleSchema = mongoose.Schema({
     // unix timestamp, last time someone donated
     lastDonatedTo: {
         type: Number
+    },
+    // geocoding
+    radius: {
+        type: Number
     }
 
 })

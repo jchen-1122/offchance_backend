@@ -61,7 +61,7 @@ const UserSchema = mongoose.Schema({
     sizeType: {
         type: String
     },
-    shoeSize: {
+    shoeSize: { 
         type: Number
     },
     shirtSize: {

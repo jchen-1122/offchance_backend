@@ -18,7 +18,7 @@ router.post('/new', (req, res) => {
         sizes: req.body.sizes,
         hostedBy: req.body.hostedBy,
         drawingDuration: req.body.drawingDuration,
-
+        radius: req.body.radius
     })
     raffle.save()
     .then(data => {
