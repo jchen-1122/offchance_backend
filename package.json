@@ -26,6 +26,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.9",
     "mongoose": "^5.9.24",
+    "shortid": "^2.2.15",
     "socket.io": "^2.3.0",
     "twilio": "^3.48.0"
   },

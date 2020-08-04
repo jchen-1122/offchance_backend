@@ -1,5 +1,6 @@
 const express = require('express')
 const bcrypt = require('bcryptjs')
+const shortid = require('shortid');
 const jwt = require('jsonwebtoken')
 const AddressSchema = require('../models/UserModels/Address')
 const CreditCardSchema = require('../models/UserModels/CreditCardSchema')
@@ -52,6 +53,7 @@ router.post('/signup', async (req, res) => {
         obj[el] = req.body[el]
     })
     obj['password'] = await bcrypt.hash(obj['password'], 8)
+    obj['referralCode'] = shortid.generate().toUpperCase()
     const user = new User(obj)
     
     user.save()

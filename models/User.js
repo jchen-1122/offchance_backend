@@ -105,8 +105,9 @@ const UserSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
-    referrals: {
-        type: Number
+    referralCode: {
+        type: String,
+        unique: true
     },
     // would be its own schema later
     analytics: {
@@ -119,7 +120,6 @@ const UserSchema = mongoose.Schema({
     }
 
 })
-
 
 const User = mongoose.model('Users', UserSchema)
 module.exports = User
