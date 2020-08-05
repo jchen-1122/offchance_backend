@@ -109,6 +109,10 @@ const RaffleSchema = mongoose.Schema({
         required: true,
         default: false
     },
+    // true if live, false if coming soon
+    live: {
+        type: Boolean
+    },
     valuedAt: {
         type: Number
     },
