@@ -127,6 +127,9 @@ const RaffleSchema = mongoose.Schema({
     // geocoding
     radius: {
         type: Number
+    },
+    address: {
+        type: String
     }
 
 })
