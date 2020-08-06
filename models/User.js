@@ -98,7 +98,7 @@ const UserSchema = mongoose.Schema({
         type: String
     },
     rafflesPosted: {
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Raffle' }]
+        type: [ObjectId]
     },
 
     informed: {
