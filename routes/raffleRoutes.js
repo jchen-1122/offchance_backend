@@ -8,19 +8,12 @@ const router = express.Router()
 */
 
 router.post('/new', (req, res) => {
-    const raffle = new Raffle({
-        name: req.body.name,
-        description: req.body.description,
-        type: req.body.type,
-        //startTime: req.body.startTime,
-        //amountLiked: req.body.amountLiked,
-        images: req.body.images,
-        sizes: req.body.sizes,
-        hostedBy: req.body.hostedBy,
-        drawingDuration: req.body.drawingDuration,
-        radius: req.body.radius
+    const raffle = {}
+    Object.keys(req.body).forEach(el => {
+        raffle[el] = req.body[el]
     })
-    raffle.save()
+    const r = new Raffle(raffle)
+    r.save()
     .then(data => {
         console.log(data)
         res.json(data)
