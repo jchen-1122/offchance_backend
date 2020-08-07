@@ -87,7 +87,8 @@ const UserSchema = mongoose.Schema({
         default: false,
         required: true
     },
-    // 3 Qs for requesting a business account
+
+    // Qs for requesting a business account
     host_item: {
         type: String
     },
@@ -97,6 +98,14 @@ const UserSchema = mongoose.Schema({
     host_details: {
         type: String
     },
+    host_birthday: {
+        type: Number
+    },
+    host_raffleType: {
+        type: Number
+    },
+
+
     rafflesPosted: {
         type: [ObjectId]
     },
