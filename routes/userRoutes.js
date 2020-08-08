@@ -7,6 +7,111 @@ const CreditCardSchema = require('../models/UserModels/CreditCardSchema')
 const User = require('../models/User')
 const e = require('express')
 const router = express.Router()
+// const paypal = require('paypal-rest-sdk')
+
+// paypal.configure({
+//     'mode': 'sandbox',
+//     'client_id': 'ARsr229eKQClg9GUI4gMhbbbm78i2d-q6ilI68m5u-9LVeenC6XTTUu_BJntIDhbrwQv1fF16lYDmJkA',
+//     'client_secret': 'EMrjTPKoJ3Ogc1gLxjJogNpMjmJI3-mFsT2K_EBsiKpcE1bH4PwYBsa2hC-x1KpHXa_YQHzh2gTHfvOr'
+// })
+
+const stripe = require('stripe')('sk_test_51HCrjPEO217KAnwYGYqsCiWAzunKM38eHKbUdoJmnT8qLbQQVCJZn8PdYMZSbZHKXYxc4EVlyqMID5lbz0PpdX1k00tL3Ylis9');
+
+router.post('/secret', async (req, res) => {
+    const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: [{
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: req.body.name,
+            },
+            unit_amount: req.body.amount * 100,
+          },
+          quantity: 1,
+        }],
+        mode: 'payment',
+        success_url: 'https://example.com/success',
+        cancel_url: 'https://example.com/cancel',
+      });
+      res.json({session_id: session.id});
+  });
+
+
+// router.get('/paypal', (req, res) => {
+//     var create_payment_json = {
+//         "intent": "sale",
+//         "payer": {
+//             "payment_method": "paypal"
+//         },
+//         "redirect_urls": {
+//             "return_url": "http://localhost:3000/success",
+//             "cancel_url": "http://localhost:3000/cancel"
+//         },
+//         "transactions": [{
+//             "item_list": {
+//                 "items": [{
+//                     "name": "item",
+//                     "sku": "item",
+//                     "price": "1.00",
+//                     "currency": "USD",
+//                     "quantity": 1
+//                 }]
+//             },
+//             "amount": {
+//                 "currency": "USD",
+//                 "total": "1.00"
+//             },
+//             "description": "This is the payment description."
+//         }]
+//     };
+    
+    
+//     paypal.payment.create(create_payment_json, function (error, payment) {
+//         if (error) {
+//             throw error;
+//         } else {
+//             console.log("Create Payment Response");
+//             console.log(payment);
+//             res.redirect(payment.links[1].href)
+//         }
+//     });
+// })
+
+// router.get("/success", (req, res) => {
+//     // res.send("Success");
+//     var PayerID = req.query.PayerID;
+//     var paymentId = req.query.paymentId;
+//     var execute_payment_json = {
+//         payer_id: PayerID,
+//         transactions: [
+//             {
+//                 amount: {
+//                     currency: "USD",
+//                     total: "1.00"
+//                 }
+//             }
+//         ]
+//     };
+
+//     paypal.payment.execute(paymentId, execute_payment_json, function(
+//         error,
+//         payment
+//     ) {
+//         if (error) {
+//             console.log(error.response);
+//             throw error;
+//         } else {
+//             console.log("Get Payment Response");
+//             console.log(JSON.stringify(payment));
+//             res.send("success");
+//         }
+//     });
+// });
+
+// router.get("cancel", (req, res) => {
+//     res.send("cancel");
+// });
 
 // visible
 router.post('/login', async (req, res) => {
