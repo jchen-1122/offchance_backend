@@ -61,6 +61,10 @@ const RaffleSchema = mongoose.Schema({
     productPrice: {
         type: Number
     },
+    // only for type 2
+    numProducts : {
+        type: Number
+    },
     startTime: {
         type: Number,
         // required: true
@@ -70,6 +74,9 @@ const RaffleSchema = mongoose.Schema({
         // required: true
     },
     // only for type 1
+    amountRaised: {
+        type: Number
+    },
     donationGoal: {
         type: Number
     },
