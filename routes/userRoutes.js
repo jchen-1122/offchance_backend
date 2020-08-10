@@ -31,8 +31,8 @@ router.post('/secret', async (req, res) => {
           quantity: 1,
         }],
         mode: 'payment',
-        success_url: 'https://example.com/success',
-        cancel_url: 'https://example.com/cancel',
+        success_url: 'https://www.blank.org',
+        cancel_url: 'https://lmaothiswontwork',
       });
       res.json({session_id: session.id});
   });
