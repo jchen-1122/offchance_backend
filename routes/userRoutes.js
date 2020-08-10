@@ -7,6 +7,8 @@ const CreditCardSchema = require('../models/UserModels/CreditCardSchema')
 const User = require('../models/User')
 const e = require('express')
 const router = express.Router()
+const braintree = require("braintree");
+const stripe = require('stripe')('sk_test_51HCrjPEO217KAnwYGYqsCiWAzunKM38eHKbUdoJmnT8qLbQQVCJZn8PdYMZSbZHKXYxc4EVlyqMID5lbz0PpdX1k00tL3Ylis9')
 
 // visible
 router.post('/login', async (req, res) => {
@@ -259,5 +261,44 @@ router.post('/verifyphone', async (req, res) => {
     }
 })
 
+router.post('/doPayment', async (req, res) => {
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount: 1000,
+        currency: 'usd',
+        payment_method_types: ['card'],
+        receipt_email: 'joshuachen1122@gmail.com',
+      });
+      res.send(paymentIntent)
+  });
+
+// router.get('/initPayment', async (req, res) => {
+//     var gateway = braintree.connect({
+//         environment: braintree.Environment.Sandbox,
+//         merchantId: "8hzh8pgcn9h9fxxr",
+//         publicKey: "kzzys2fzhrbyz243",
+//         privateKey: "12aaf03c0b57e497f054c44dce71c3f6"
+//     })
+//     let token = (await gateway.clientToken.generate({})).clientToken
+//     res.send({data: token})
+// })
+
+// router.post('/confirmPayment', async (req, res) => {
+//     const data = req.body
+//     var gateway = braintree.connect({
+//         environment: braintree.Environment.Sandbox,
+//         merchantId: "8hzh8pgcn9h9fxxr",
+//         publicKey: "kzzys2fzhrbyz243",
+//         privateKey: "12aaf03c0b57e497f054c44dce71c3f6"
+//     })
+//     let transactionResponse = await gateway.transaction.sale({
+//         amount: data.amount,
+//         paymentMethodNonce: data.nonce,
+//         options: {
+//             submitForSettlement: true
+//         }
+//     }) 
+//     console.log(transactionResponse)
+//     res.send({data: transactionResponse})
+// })
 
 module.exports = router
