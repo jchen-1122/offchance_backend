@@ -7,17 +7,18 @@ const CreditCardSchema = require('../models/UserModels/CreditCardSchema')
 const User = require('../models/User')
 const e = require('express')
 const router = express.Router()
-// const paypal = require('paypal-rest-sdk')
+const paypal = require('paypal-rest-sdk')
 
-// paypal.configure({
-//     'mode': 'sandbox',
-//     'client_id': 'ARsr229eKQClg9GUI4gMhbbbm78i2d-q6ilI68m5u-9LVeenC6XTTUu_BJntIDhbrwQv1fF16lYDmJkA',
-//     'client_secret': 'EMrjTPKoJ3Ogc1gLxjJogNpMjmJI3-mFsT2K_EBsiKpcE1bH4PwYBsa2hC-x1KpHXa_YQHzh2gTHfvOr'
-// })
+// payment stuff
+paypal.configure({
+    'mode': 'sandbox',
+    'client_id': 'ARsr229eKQClg9GUI4gMhbbbm78i2d-q6ilI68m5u-9LVeenC6XTTUu_BJntIDhbrwQv1fF16lYDmJkA',
+    'client_secret': 'EMrjTPKoJ3Ogc1gLxjJogNpMjmJI3-mFsT2K_EBsiKpcE1bH4PwYBsa2hC-x1KpHXa_YQHzh2gTHfvOr'
+})
 
 const stripe = require('stripe')('sk_test_51HCrjPEO217KAnwYGYqsCiWAzunKM38eHKbUdoJmnT8qLbQQVCJZn8PdYMZSbZHKXYxc4EVlyqMID5lbz0PpdX1k00tL3Ylis9');
 
-router.post('/secret', async (req, res) => {
+router.post('/oneTimeNoSave', async (req, res) => {
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: [{
@@ -32,10 +33,57 @@ router.post('/secret', async (req, res) => {
         }],
         mode: 'payment',
         success_url: 'https://www.blank.org',
-        cancel_url: 'https://lmaothiswontwork',
+        cancel_url: 'https://lmaothiswontwork'
       });
       res.json({session_id: session.id});
   });
+
+router.post('/oneTimeSave', async (req, res) => {
+    const customer = await stripe.customers.create();
+    const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: [{  
+            price_data: {
+            currency: 'usd',
+            product_data: {
+                name: req.body.name,
+            },
+            unit_amount: req.body.amount * 100,
+            },
+            quantity: 1,
+        }],
+        mode: 'payment',
+        success_url: 'https://www.blank.org',
+        cancel_url: 'https://lmaothiswontwork',
+        customer: customer.id
+        });
+        res.json({session_id: session.id, customer: customer.id});
+});
+
+router.post('/getLast4', async (req, res) => {
+    const paymentMethods = await stripe.paymentMethods.list({
+        customer: req.body.customer,
+        type: 'card',
+    });
+    res.send(paymentMethods.data[0].card.last4)
+})
+
+router.post('/autopay', async (req, res) => {
+    // const paymentMethods = await stripe.paymentMethods.list({
+    //     customer: 'cus_HoI8DwIfP2dolr',
+    //     type: 'card',
+    // });
+    const paymentMethods = await stripe.paymentMethods.list({
+        customer: req.body.customer,
+        type: 'card',
+    });
+    const intent = await stripe.paymentIntents.create({
+        amount: req.body.amount * 100,
+        currency: 'usd',
+        customer: req.body.customer,        
+    }); 
+    res.json({payment_intent: intent, payment_id: paymentMethods.data[0].id})
+})
 
 
 // router.get('/paypal', (req, res) => {
@@ -78,7 +126,7 @@ router.post('/secret', async (req, res) => {
 //     });
 // })
 
-// router.get("/success", (req, res) => {
+// router.get("/paypalsuccess", (req, res) => {
 //     // res.send("Success");
 //     var PayerID = req.query.PayerID;
 //     var paymentId = req.query.paymentId;
@@ -224,6 +272,7 @@ router.patch('/edit/:id', async (req, res) => {
         updates.forEach((update) => {
             user[update] = req.body[update]
         })
+        console.log('here')
         if (req.body.password) {
             user['password'] = await bcrypt.hash(user['password'], 8)
         }

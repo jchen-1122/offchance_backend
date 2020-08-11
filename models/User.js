@@ -47,7 +47,10 @@ const UserSchema = mongoose.Schema({
         type: String
     },
     paymentInfo: {
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CreditCardSchema' }],
+        type: String,
+    },
+    last4: {
+        type: String
     },
     walletChances: {
         type: Number,
