@@ -131,6 +131,10 @@ const RaffleSchema = mongoose.Schema({
     lastDonatedTo: {
         type: Number
     },
+    totalViews: {
+        type: Number,
+        default: 0
+    },
     // geocoding
     radius: {
         type: Number
