@@ -5,6 +5,30 @@ const Raffle = require('./Raffle')
 const AddressSchema = require('./UserModels/Address')
 const CreditCardSchema = require('./UserModels/CreditCardSchema')
 
+const UserRaffleSchema = mongoose.Schema({
+    raffleID: {
+        type: ObjectId,
+        require: true
+    },
+    amountDonated: {
+        type: Number,
+        require: true
+    },
+    chances: {
+        type: Number,
+        require: true
+    },
+    sizeType:{
+        type: String
+    },
+    size:{
+        type: String
+    },
+    timeDonated: {
+        type: Number
+    }
+})
+
 const UserSchema = mongoose.Schema({
     name: {
         type: String,
@@ -74,8 +98,9 @@ const UserSchema = mongoose.Schema({
     likedRaffles: {
         type: [ObjectId]
     },
-    enteredRaffles: {
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Raffle' }]
+    rafflesEntered: {
+        children: [UserRaffleSchema],
+        child: UserRaffleSchema
     },
 
     following: {

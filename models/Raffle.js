@@ -75,7 +75,8 @@ const RaffleSchema = mongoose.Schema({
     },
     // only for type 1
     amountRaised: {
-        type: Number
+        type: Number,
+        default: 0
     },
     donationGoal: {
         type: Number
