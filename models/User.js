@@ -29,6 +29,18 @@ const UserRaffleSchema = mongoose.Schema({
     }
 })
 
+// for when a user wins a raffle
+const WonRaffleSchema = mongoose.Schema({
+    raffleID: {
+        type: ObjectId,
+        require: true
+    },
+    reward: {
+        type: Number,
+        require: true
+    }
+})
+
 const UserSchema = mongoose.Schema({
     name: {
         type: String,
@@ -101,6 +113,10 @@ const UserSchema = mongoose.Schema({
     rafflesEntered: {
         children: [UserRaffleSchema],
         child: UserRaffleSchema
+    },
+    rafflesWon: {
+        children: [WonRaffleSchema],
+        child: WonRaffleSchema
     },
 
     following: {
