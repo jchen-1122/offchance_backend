@@ -170,6 +170,11 @@ const UserSchema = mongoose.Schema({
         type: Boolean,
         default: false,
         required: true
+    },
+
+    // for push notifs
+    token: {
+        type: String
     }
 
 })
