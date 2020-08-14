@@ -18,6 +18,7 @@ paypal.configure({
 
 const stripe = require('stripe')('sk_test_51HCrjPEO217KAnwYGYqsCiWAzunKM38eHKbUdoJmnT8qLbQQVCJZn8PdYMZSbZHKXYxc4EVlyqMID5lbz0PpdX1k00tL3Ylis9');
 
+// ibm done
 router.post('/oneTimeNoSave', async (req, res) => {
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
@@ -38,6 +39,7 @@ router.post('/oneTimeNoSave', async (req, res) => {
       res.json({session_id: session.id});
   });
 
+// ibm done
 router.post('/oneTimeSave', async (req, res) => {
     const customer = await stripe.customers.create();
     const session = await stripe.checkout.sessions.create({
@@ -60,6 +62,7 @@ router.post('/oneTimeSave', async (req, res) => {
         res.json({session_id: session.id, customer: customer.id});
 });
 
+// ibm done
 router.post('/getLast4', async (req, res) => {
     const paymentMethods = await stripe.paymentMethods.list({
         customer: req.body.customer,
@@ -68,6 +71,8 @@ router.post('/getLast4', async (req, res) => {
     res.send(paymentMethods.data[0].card.last4)
 })
 
+
+// ibm done
 router.post('/autopay', async (req, res) => {
     // const paymentMethods = await stripe.paymentMethods.list({
     //     customer: 'cus_HoI8DwIfP2dolr',
@@ -86,81 +91,82 @@ router.post('/autopay', async (req, res) => {
 })
 
 
-// router.get('/paypal', (req, res) => {
-//     var create_payment_json = {
-//         "intent": "sale",
-//         "payer": {
-//             "payment_method": "paypal"
-//         },
-//         "redirect_urls": {
-//             "return_url": "http://localhost:3000/success",
-//             "cancel_url": "http://localhost:3000/cancel"
-//         },
-//         "transactions": [{
-//             "item_list": {
-//                 "items": [{
-//                     "name": "item",
-//                     "sku": "item",
-//                     "price": "1.00",
-//                     "currency": "USD",
-//                     "quantity": 1
-//                 }]
-//             },
-//             "amount": {
-//                 "currency": "USD",
-//                 "total": "1.00"
-//             },
-//             "description": "This is the payment description."
-//         }]
-//     };
+router.get('/paypal', (req, res) => {
+    var create_payment_json = {
+        "intent": "sale",
+        "payer": {
+            "payment_method": "paypal"
+        },
+        "redirect_urls": {
+            // in the future this will be an ibm cloud function 
+            "return_url": 'http://192.168.0.22:3000/user/success',
+            "cancel_url": 'http://lmaothiswontwork'
+        },
+        "transactions": [{
+            "item_list": {
+                "items": [{
+                    "name": "item",
+                    "sku": "item",
+                    "price": "1.00",
+                    "currency": "USD",
+                    "quantity": 1
+                }]
+            },
+            "amount": {
+                "currency": "USD",
+                "total": "1.00"
+            },
+            "description": "This is the payment description."
+        }]
+    };
     
     
-//     paypal.payment.create(create_payment_json, function (error, payment) {
-//         if (error) {
-//             throw error;
-//         } else {
-//             console.log("Create Payment Response");
-//             console.log(payment);
-//             res.redirect(payment.links[1].href)
-//         }
-//     });
-// })
+    paypal.payment.create(create_payment_json, function (error, payment) {
+        if (error) {
+            throw error;
+        } else {
+            console.log("Create Payment Response");
+            console.log(payment);
+            res.redirect(payment.links[1].href)
+        }
+    });
+})
 
-// router.get("/paypalsuccess", (req, res) => {
-//     // res.send("Success");
-//     var PayerID = req.query.PayerID;
-//     var paymentId = req.query.paymentId;
-//     var execute_payment_json = {
-//         payer_id: PayerID,
-//         transactions: [
-//             {
-//                 amount: {
-//                     currency: "USD",
-//                     total: "1.00"
-//                 }
-//             }
-//         ]
-//     };
+router.get('/success', (req, res) => {
+    // res.send("Success");
+    var PayerID = req.query.PayerID;
+    var paymentId = req.query.paymentId;
+    var execute_payment_json = {
+        payer_id: PayerID,
+        transactions: [
+            {
+                amount: {
+                    currency: "USD",
+                    total: "1.00"
+                }
+            }
+        ]
+    };
 
-//     paypal.payment.execute(paymentId, execute_payment_json, function(
-//         error,
-//         payment
-//     ) {
-//         if (error) {
-//             console.log(error.response);
-//             throw error;
-//         } else {
-//             console.log("Get Payment Response");
-//             console.log(JSON.stringify(payment));
-//             res.send("success");
-//         }
-//     });
-// });
+    paypal.payment.execute(paymentId, execute_payment_json, function(
+        error,
+        payment
+    ) {
+        if (error) {
+            res.send("error")
+        } else {
+            console.log("Get Payment Response");
+            console.log(JSON.stringify(payment));
+            res.send("success");
+        }
+    });
+});
 
-// router.get("cancel", (req, res) => {
-//     res.send("cancel");
-// });
+router.get('/cancel', (req, res) => {
+    res.send("cancel");
+});
 
+// moved to ibm
 // visible
 router.post('/login', async (req, res) => {
     const email = req.body.email
@@ -185,6 +191,7 @@ router.post('/login', async (req, res) => {
     }
 })
 
+// moved to ibm
 router.post('/signup', async (req, res) => {
     // const address = new AddressSchema({
     //     streetAddress: req.body.streetAddress,
@@ -219,6 +226,7 @@ router.post('/signup', async (req, res) => {
 })
 
 // not visible
+// ibm done
 router.get('/id/:id', async (req, res) => {
     const _id = req.params.id
     try {
@@ -234,6 +242,7 @@ router.get('/id/:id', async (req, res) => {
     }
 })
 
+// dont think this is in use
 router.patch('/ids/', async (req, res) => {
     const ids = req.body.ids
     console.log(ids)
@@ -257,6 +266,7 @@ router.patch('/ids/', async (req, res) => {
     }
 })
 
+// ibm done
 router.patch('/edit/:id', async (req, res) => {
     const updates = Object.keys(req.body)
     const _id = req.params.id
@@ -283,6 +293,7 @@ router.patch('/edit/:id', async (req, res) => {
     }   
 })
 
+// ibm done
 router.get('/query/', async (req, res) => {
     try {
         const query = req.query.query
@@ -310,6 +321,7 @@ router.get('/query/', async (req, res) => {
     
 })
 
+// 
 router.post('/sendcode', async (req, res) => {
     console.log('here')
     const email = req.body.email
@@ -369,6 +381,7 @@ router.post('/verifycode', async (req, res) => {
     }
 })
 
+// 
 router.post('/sendphone', async (req, res) => {
     const phone = '+1' + req.body.phoneNumber
 
@@ -412,16 +425,6 @@ router.post('/verifyphone', async (req, res) => {
         res.status(500).send()
     }
 })
-
-router.post('/doPayment', async (req, res) => {
-    const paymentIntent = await stripe.paymentIntents.create({
-        amount: 1000,
-        currency: 'usd',
-        payment_method_types: ['card'],
-        receipt_email: 'joshuachen1122@gmail.com',
-      });
-      res.send(paymentIntent)
-  });
 
 // router.get('/initPayment', async (req, res) => {
 //     var gateway = braintree.connect({

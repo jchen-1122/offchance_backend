@@ -7,6 +7,7 @@ const router = express.Router()
 * approved and archived false by default
 */
 
+// ibm done
 router.post('/new', (req, res) => {
     const raffle = {}
     Object.keys(req.body).forEach(el => {
@@ -24,6 +25,7 @@ router.post('/new', (req, res) => {
 })
 
 // Edit raffle details
+// ibm done
 router.patch('/edit/:id', async (req, res) => {
     const updates = Object.keys(req.body)
     const _id = req.params.id
@@ -46,6 +48,7 @@ router.patch('/edit/:id', async (req, res) => {
 })
 
 // Get all raffles
+// ibm done
 router.get('/all', async (req, res) => {
     try {
         const all = await Raffle.find({})
@@ -59,6 +62,7 @@ router.get('/all', async (req, res) => {
 })
 
 // Search by raffle name
+// ibm done
 router.get('/name/:id', async (req, res) => {
     const _id = req.params.id
     try {
@@ -75,6 +79,7 @@ router.get('/name/:id', async (req, res) => {
 })
 
 // Search by id
+// ibm done
 router.get('/id/:id', async (req, res) => {
     const _id = req.params.id
     try {
@@ -91,6 +96,7 @@ router.get('/id/:id', async (req, res) => {
 })
 
 // Delete by id
+// ibm
 router.delete('/del/:id', async (req, res) => {
     const _id = req.params.id
     try {
@@ -106,6 +112,7 @@ router.delete('/del/:id', async (req, res) => {
     }
 })
 
+// ibm done
 router.post('/win/:id', async (req, res) => {
     const _id = req.params.id
     try {
@@ -138,6 +145,7 @@ router.post('/win/:id', async (req, res) => {
 })
 
 
+// ibm done
 router.get('/query', async (req, res) => {
     try {
         const query = req.query.query
