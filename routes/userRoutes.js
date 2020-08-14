@@ -426,6 +426,60 @@ router.post('/verifyphone', async (req, res) => {
     }
 })
 
+// ===============================================
+let savedPushTokens = [];
+
+const saveToken = token => {
+    console.log(token, savedPushTokens);
+    const exists = savedPushTokens.find(t => t === token);
+    if (!exists) {
+      savedPushTokens.push(token);
+    }
+  };
+
+  router.post("/token", async(req, res) => {
+    saveToken(req.body.token.value);
+    console.log(`Received push token, ${req.body.token.value}`);
+    res.send(`Received push token, ${req.body.token.value}`);
+  });
+
+const handlePushTokens = ({ title, body }) => {
+  let notifications = [];
+  for (let pushToken of savedPushTokens) {
+    if (!Expo.isExpoPushToken(pushToken)) {
+      console.error(`Push token ${pushToken} is not a valid Expo push token`);
+      continue;
+    }
+    notifications.push({
+      to: pushToken,
+      sound: "default",
+      body: 'This is a test notification',
+      data: { withSome: 'data' },
+    //   title: title,
+    //   body: body,
+    //   body: body,
+    //   data: { body }
+    });
+  }
+  let chunks = expo.chunkPushNotifications(notifications);
+
+  (async () => {
+    for (let chunk of chunks) {
+      try {
+        let receipts = await expo.sendPushNotificationsAsync(chunk);
+        console.log(receipts);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  })();
+};
+
+
+router.get("/pushSuccess", (req, res) => {
+    res.send("Push Notification Server Running");
+  });
+
 // router.get('/initPayment', async (req, res) => {
 //     var gateway = braintree.connect({
 //         environment: braintree.Environment.Sandbox,
