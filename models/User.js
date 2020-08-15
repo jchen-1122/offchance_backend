@@ -132,6 +132,11 @@ const UserSchema = mongoose.Schema({
         required: true
     },
 
+    // only for host
+    rafflesPosted: {
+        type: [ObjectId]
+    },
+
     // Qs for requesting a business account
     host_item: {
         type: String
@@ -147,11 +152,6 @@ const UserSchema = mongoose.Schema({
     },
     host_raffleType: {
         type: Number
-    },
-
-
-    rafflesPosted: {
-        type: [ObjectId]
     },
 
     informed: {
@@ -171,8 +171,7 @@ const UserSchema = mongoose.Schema({
         default: false,
         required: true
     },
-
-    // for push notifs
+    // for push notifications
     token: {
         type: String
     }
