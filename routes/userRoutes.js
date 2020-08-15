@@ -429,7 +429,7 @@ router.post('/verifyphone', async (req, res) => {
     }
 })
 
-// ===============================================
+// PUSH NOTIFS ===============================================
 
 const handlePushTokens = (data) => {
     let notifications = [];
@@ -462,6 +462,12 @@ const handlePushTokens = (data) => {
     })();
 };
 
+// ** in the frontend repo, use the function userIDStoPushTokens() in functions > user_functions.js to get array of pushTokens
+// request body format:
+// pushTokens: [String] -> array of push tokens for users who will receive notification
+// title: String, title of push notif
+// message: String, body of push notif
+// page: String, which page to navigate to when you press it
 router.post("/message", async (req, res) => {
     try {
         handlePushTokens(req.body);
