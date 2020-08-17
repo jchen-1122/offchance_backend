@@ -170,6 +170,9 @@ const UserSchema = mongoose.Schema({
         type: Boolean,
         default: false,
         required: true
+    },
+    reports: {
+        type: [String]
     }
 
 })
