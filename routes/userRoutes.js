@@ -8,6 +8,9 @@ const User = require('../models/User')
 const e = require('express')
 const router = express.Router()
 const paypal = require('paypal-rest-sdk')
+const { Expo } = require("expo-server-sdk");
+const expo = new Expo();
+const cors = require("cors");
 
 // payment stuff
 paypal.configure({
@@ -23,34 +26,34 @@ router.post('/oneTimeNoSave', async (req, res) => {
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: [{
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: req.body.name,
+            price_data: {
+                currency: 'usd',
+                product_data: {
+                    name: req.body.name,
+                },
+                unit_amount: req.body.amount * 100,
             },
-            unit_amount: req.body.amount * 100,
-          },
-          quantity: 1,
+            quantity: 1,
         }],
         mode: 'payment',
         success_url: 'https://www.blank.org',
         cancel_url: 'https://lmaothiswontwork'
-      });
-      res.json({session_id: session.id});
-  });
+    });
+    res.json({ session_id: session.id });
+});
 
 // ibm done
 router.post('/oneTimeSave', async (req, res) => {
     const customer = await stripe.customers.create();
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
-        line_items: [{  
+        line_items: [{
             price_data: {
-            currency: 'usd',
-            product_data: {
-                name: req.body.name,
-            },
-            unit_amount: req.body.amount * 100,
+                currency: 'usd',
+                product_data: {
+                    name: req.body.name,
+                },
+                unit_amount: req.body.amount * 100,
             },
             quantity: 1,
         }],
@@ -58,8 +61,8 @@ router.post('/oneTimeSave', async (req, res) => {
         success_url: 'https://www.blank.org',
         cancel_url: 'https://lmaothiswontwork',
         customer: customer.id
-        });
-        res.json({session_id: session.id, customer: customer.id});
+    });
+    res.json({ session_id: session.id, customer: customer.id });
 });
 
 // ibm done
@@ -85,9 +88,9 @@ router.post('/autopay', async (req, res) => {
     const intent = await stripe.paymentIntents.create({
         amount: req.body.amount * 100,
         currency: 'usd',
-        customer: req.body.customer,        
-    }); 
-    res.json({payment_intent: intent, payment_id: paymentMethods.data[0].id})
+        customer: req.body.customer,
+    });
+    res.json({ payment_intent: intent, payment_id: paymentMethods.data[0].id })
 })
 
 
@@ -119,8 +122,8 @@ router.get('/paypal', (req, res) => {
             "description": "This is the payment description."
         }]
     };
-    
-    
+
+
     paypal.payment.create(create_payment_json, function (error, payment) {
         if (error) {
             throw error;
@@ -148,7 +151,7 @@ router.get('/success', (req, res) => {
         ]
     };
 
-    paypal.payment.execute(paymentId, execute_payment_json, function(
+    paypal.payment.execute(paymentId, execute_payment_json, function (
         error,
         payment
     ) {
@@ -172,16 +175,16 @@ router.post('/login', async (req, res) => {
     const email = req.body.email
     const password = req.body.password
     if (password == null) {
-        res.status(400).send({error: 'unable to login'})
+        res.status(400).send({ error: 'unable to login' })
     }
     try {
-        const user = await User.findOne({email})
+        const user = await User.findOne({ email })
         if (!user) {
-            res.status(400).send({error: 'unable to login'})
+            res.status(400).send({ error: 'unable to login' })
         }
         const isMatch = await bcrypt.compare(password, user.password)
         if (!isMatch) {
-            res.status(400).send({error: 'unable to login'})
+            res.status(400).send({ error: 'unable to login' })
         }
         // const token = generateAuthToken(user)
         // console.log(token)
@@ -215,14 +218,14 @@ router.post('/signup', async (req, res) => {
     obj['password'] = await bcrypt.hash(obj['password'], 8)
     obj['referralCode'] = shortid.generate().toUpperCase()
     const user = new User(obj)
-    
+
     user.save()
-    .then(data => {
-        console.log(data)
-        res.json(data)
-    }).catch(e => {
-        res.json(e)
-    })
+        .then(data => {
+            console.log(data)
+            res.json(data)
+        }).catch(e => {
+            res.json(e)
+        })
 })
 
 // not visible
@@ -277,7 +280,7 @@ router.patch('/edit/:id', async (req, res) => {
         })
         console.log(user)
         if (!user) {
-            return res.status(400).send({message:'user not found'})
+            return res.status(400).send({ message: 'user not found' })
         }
         updates.forEach((update) => {
             user[update] = req.body[update]
@@ -287,10 +290,10 @@ router.patch('/edit/:id', async (req, res) => {
             user['password'] = await bcrypt.hash(user['password'], 8)
         }
         await user.save()
-        res.send(user)  
+        res.send(user)
     } catch (e) {
         res.status(404).send(e)
-    }   
+    }
 })
 
 // ibm done
@@ -316,9 +319,9 @@ router.get('/query/', async (req, res) => {
             res.status(200).send(users)
         }
     } catch (e) {
-        res.status(500).send({message: 'invalid query params'})
+        res.status(500).send({ message: 'invalid query params' })
     }
-    
+
 })
 
 // 
@@ -329,7 +332,7 @@ router.post('/sendcode', async (req, res) => {
     const accountSid = process.env.TWILIO_ACCOUNT_SID
     const authToken = process.env.TWILIO_AUTH_TOKEN
     const serviceid = process.env.TWILIO_VERIFY_SERVICE
-    
+
     const twilioClient = require("twilio")(accountSid, authToken)
 
     try {
@@ -337,15 +340,15 @@ router.post('/sendcode', async (req, res) => {
             "email": email
         })
         if (!user) {
-            return res.status(400).send({error: 'User does not exist'})
+            return res.status(400).send({ error: 'User does not exist' })
         }
         twilioClient.verify
             .services(serviceid) //Put the Verification service SID here
-            .verifications.create({to: email, channel: "email"})
+            .verifications.create({ to: email, channel: "email" })
             .then(verification => {
                 console.log(verification);
             });
-        res.send({done:"email sent"})
+        res.send({ done: "email sent" })
     } catch (e) {
         res.status(500).send()
     }
@@ -358,7 +361,7 @@ router.post('/verifycode', async (req, res) => {
     const accountSid = process.env.TWILIO_ACCOUNT_SID
     const authToken = process.env.TWILIO_AUTH_TOKEN
     const serviceid = process.env.TWILIO_VERIFY_SERVICE
-    
+
     const twilioClient = require("twilio")(accountSid, authToken)
 
     try {
@@ -366,15 +369,15 @@ router.post('/verifycode', async (req, res) => {
             "email": email
         })
         if (!user) {
-            return res.status(400).send({error: 'User does not exist'})
+            return res.status(400).send({ error: 'User does not exist' })
         }
         twilioClient.verify
             .services(serviceid) //Put the Verification service SID here
             .verificationChecks.create({ to: email, code: code })
             .then(verification_check => {
                 console.log(verification_check.status)
-                if (verification_check.status === 'approved') res.send({done: "correct code", _id: user._id})
-                res.send({error: "Invalid code"})
+                if (verification_check.status === 'approved') res.send({ done: "correct code", _id: user._id })
+                res.send({ error: "Invalid code" })
             });
     } catch (e) {
         res.status(500).send()
@@ -388,16 +391,16 @@ router.post('/sendphone', async (req, res) => {
     const accountSid = process.env.TWILIO_ACCOUNT_SID
     const authToken = process.env.TWILIO_AUTH_TOKEN
     const serviceid = process.env.TWILIO_VERIFY_SERVICE
-    
+
     const twilioClient = require("twilio")(accountSid, authToken)
 
     try {
         twilioClient.verify.services(serviceid)
             .verifications
-            .create({to: phone, channel: 'sms'})
+            .create({ to: phone, channel: 'sms' })
             .then(verification => console.log(verification.status));
-        res.send({done:"email sent"})
-        } catch (e) {
+        res.send({ done: "email sent" })
+    } catch (e) {
         res.status(500).send()
     }
 })
@@ -409,51 +412,71 @@ router.post('/verifyphone', async (req, res) => {
     const accountSid = process.env.TWILIO_ACCOUNT_SID
     const authToken = process.env.TWILIO_AUTH_TOKEN
     const serviceid = process.env.TWILIO_VERIFY_SERVICE
-    
+
     const twilioClient = require("twilio")(accountSid, authToken)
 
     try {
         twilioClient.verify.services(serviceid)
             .verificationChecks
-            .create({to: phone, code: code})
+            .create({ to: phone, code: code })
             .then(verification_check => {
                 console.log(verification_check)
-                if (verification_check.status === 'approved') res.send({done: "correct code"})
-                res.send({error: "Invalid code"})
+                if (verification_check.status === 'approved') res.send({ done: "correct code" })
+                res.send({ error: "Invalid code" })
             });
     } catch (e) {
         res.status(500).send()
     }
 })
 
-// router.get('/initPayment', async (req, res) => {
-//     var gateway = braintree.connect({
-//         environment: braintree.Environment.Sandbox,
-//         merchantId: "8hzh8pgcn9h9fxxr",
-//         publicKey: "kzzys2fzhrbyz243",
-//         privateKey: "12aaf03c0b57e497f054c44dce71c3f6"
-//     })
-//     let token = (await gateway.clientToken.generate({})).clientToken
-//     res.send({data: token})
-// })
+// PUSH NOTIFS ===============================================
 
-// router.post('/confirmPayment', async (req, res) => {
-//     const data = req.body
-//     var gateway = braintree.connect({
-//         environment: braintree.Environment.Sandbox,
-//         merchantId: "8hzh8pgcn9h9fxxr",
-//         publicKey: "kzzys2fzhrbyz243",
-//         privateKey: "12aaf03c0b57e497f054c44dce71c3f6"
-//     })
-//     let transactionResponse = await gateway.transaction.sale({
-//         amount: data.amount,
-//         paymentMethodNonce: data.nonce,
-//         options: {
-//             submitForSettlement: true
-//         }
-//     }) 
-//     console.log(transactionResponse)
-//     res.send({data: transactionResponse})
-// })
+const handlePushTokens = (data) => {
+    let notifications = [];
+    for (let pushToken of data.pushTokens) {
+        if (!Expo.isExpoPushToken(pushToken)) {
+            console.error(`Push token ${pushToken} is not a valid Expo push token`);
+            continue;
+        }
+        // https://docs.expo.io/push-notifications/sending-notifications/#message-request-format
+        notifications.push({
+            to: pushToken, // send this message to the user using the pushtoken
+            sound: "default",
+            title: data.title,
+            body: data.message,
+            data: { data }
+        });
+    }
+    console.log('NOTIFS', notifications)
+    let chunks = expo.chunkPushNotifications(notifications);
+
+    (async () => {
+        for (let chunk of chunks) {
+            try {
+                let receipts = await expo.sendPushNotificationsAsync(chunk);
+                console.log('RECEIPTS', receipts);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    })();
+};
+
+// ** in the frontend repo, use the function userIDStoPushTokens() in functions > user_functions.js to get array of pushTokens
+// request body format:
+// pushTokens: [String] -> array of push tokens for users who will receive notification
+// title: String, title of push notif
+// message: String, body of push notif
+// page: String, which page to navigate to when you press it
+router.post("/message", async (req, res) => {
+    try {
+        handlePushTokens(req.body);
+        console.log(`Received message, with title: ${req.body.title}`);
+        res.send(`Received message, with title: ${req.body.title}`);
+    }
+    catch (e) {
+        res.status(500).send()
+    }
+});
 
 module.exports = router

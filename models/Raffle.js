@@ -89,6 +89,11 @@ const RaffleSchema = mongoose.Schema({
         required: true,
         default: 0
     },
+    // list of users who have liked the raffle
+    likedUsers: {
+        type: [ObjectId],
+        default: []
+    },
     images: {
         type: [String],
         required: true
