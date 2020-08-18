@@ -147,6 +147,9 @@ const UserSchema = mongoose.Schema({
     host_details: {
         type: String
     },
+    host_license: {
+        type: String
+    },
     host_birthday: {
         type: Number
     },
