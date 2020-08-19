@@ -468,6 +468,7 @@ const handlePushTokens = (data) => {
 // title: String, title of push notif
 // message: String, body of push notif
 // page: String, which page to navigate to when you press it
+// raffle: Object, raffle object if the page is 'Raffle'
 router.post("/message", async (req, res) => {
     try {
         handlePushTokens(req.body);
