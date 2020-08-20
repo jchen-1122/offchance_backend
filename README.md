@@ -8,6 +8,7 @@
 5. [Get Users by Query (GET)](#get-users-by-query)  
 6. [Twilio - Email Verification Code (POST)](#twilio---send-code-to-email)
 7. [Twilio - Check Verification Code (POST)](#twilio---verify-email-code)
+8. [Push Notif - Message (POST)](#push-notif---message)
 
 [Raffle Routes](#raffle-routes-api-documentation)
 1. [New Raffle (GET)](#new-raffle)
@@ -15,7 +16,7 @@
 3. [Edit Raffle Details (PATCH)](#edit-raffle-details)
 4. [Search By Raffle Name (GET)](#search-by-raffle-name)
 5. [Search By Raffle ID (GET)](#search-by-raffle-id)
-6. [Get Raffles by Query (GET)](##get-raffles-by-query)
+6. [Get Raffles by Query (GET)](#get-raffles-by-query)
 7. [Delete By Raffle ID (DELETE)](#delete-by-raffle-id)
 
 
@@ -100,6 +101,23 @@ Notes:
 
 - Code is a 6-digit numerical code that can only authenticate once.  
 - Once again please do not spam.
+
+## Push Notif - Message
+Method: POST
+Route: http://localhost:3000/user/message
+
+Required params:
+- pushTokens: [String] (array of push tokens for users who will receive notification)
+- title: String (title of push notif)
+- message: String (body of push notif)
+
+Optional params:
+- page: String (which page to navigate to when you press it)
+- raffleID: String (ID of raffle if the page is 'Raffle')
+
+Notes:
+- On the frontend in Home.js, the `Notifications.addNotificationResponseReceivedListener` function determines which page to go to when the user clicks on the push notification
+- Use the function called `getPushTokens()` in src > functions > pushNotifs > getPushTokens.js to convert an array of UserIDs to PushTokens
 
 # RAFFLE ROUTES API DOCUMENTATION
 
