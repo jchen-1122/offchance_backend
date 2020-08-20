@@ -15,8 +15,8 @@ const cors = require("cors");
 // payment stuff
 paypal.configure({
     'mode': 'sandbox',
-    'client_id': 'ARsr229eKQClg9GUI4gMhbbbm78i2d-q6ilI68m5u-9LVeenC6XTTUu_BJntIDhbrwQv1fF16lYDmJkA',
-    'client_secret': 'EMrjTPKoJ3Ogc1gLxjJogNpMjmJI3-mFsT2K_EBsiKpcE1bH4PwYBsa2hC-x1KpHXa_YQHzh2gTHfvOr'
+    'client_id': 'AZ0-7Xt9w99oa6z2o8na1xuwKWlMIU7rPeyCbwMODMchVyfY2aabSZVpcZ69B2MToMiV8bmrD8mc1aZN',
+    'client_secret': 'EFhtyZl9ar_xjeSC29iSxskq-zFwezt7leEZt0xj7rdEL8m4bgIR0TZC5Zb3GWyzZrMmtuEaNjbj5qYQ'
 })
 
 const stripe = require('stripe')('sk_test_51HCrjPEO217KAnwYGYqsCiWAzunKM38eHKbUdoJmnT8qLbQQVCJZn8PdYMZSbZHKXYxc4EVlyqMID5lbz0PpdX1k00tL3Ylis9');
