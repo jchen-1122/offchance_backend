@@ -177,6 +177,9 @@ const UserSchema = mongoose.Schema({
     reports: {
         type: [String]
     },
+    bannedUntil: {
+        type: Number
+    },
     // for push notifications
     token: {
         type: String
