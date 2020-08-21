@@ -71,7 +71,8 @@ router.post('/getLast4', async (req, res) => {
         customer: req.body.customer,
         type: 'card',
     });
-    res.send(paymentMethods.data[0].card.last4)
+    console.log(paymentMethods.data[0].card)
+    res.send({last4: paymentMethods.data[0].card.last4, brand: paymentMethods.data[0].card.brand})
 })
 
 

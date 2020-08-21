@@ -88,6 +88,9 @@ const UserSchema = mongoose.Schema({
     last4: {
         type: String
     },
+    brand: {
+        type: String
+    }, 
     walletChances: {
         type: Number,
         default: 0
