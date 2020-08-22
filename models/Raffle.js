@@ -104,6 +104,9 @@ const RaffleSchema = mongoose.Schema({
     charities: {
         type: [String]
     },
+    charityImgs: {
+        type: [String]
+    },
     // for M, W, Y
     sizeTypes: {
         type: [String]
