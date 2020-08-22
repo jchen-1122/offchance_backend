@@ -95,7 +95,7 @@ router.post('/autopay', async (req, res) => {
 })
 
 
-router.get('/paypal', (req, res) => {
+router.post('/paypal', (req, res) => {
     var create_payment_json = {
         "intent": "sale",
         "payer": {
@@ -109,16 +109,16 @@ router.get('/paypal', (req, res) => {
         "transactions": [{
             "item_list": {
                 "items": [{
-                    "name": "item",
+                    "name": req.body.name,
                     "sku": "item",
-                    "price": "1.00",
+                    "price": req.body.amount,
                     "currency": "USD",
                     "quantity": 1
                 }]
             },
             "amount": {
                 "currency": "USD",
-                "total": "1.00"
+                "total": req.body.amount
             },
             "description": "This is the payment description."
         }]
@@ -129,8 +129,6 @@ router.get('/paypal', (req, res) => {
         if (error) {
             throw error;
         } else {
-            console.log("Create Payment Response");
-            console.log(payment);
             res.redirect(payment.links[1].href)
         }
     });
