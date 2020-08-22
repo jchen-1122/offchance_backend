@@ -1,6 +1,7 @@
 const express = require('express')
 const Raffle = require('../models/Raffle')
 const router = express.Router()
+const AWS = require('aws-sdk');
 
 /*
 * New raffle posted by verified accounts
@@ -95,6 +96,31 @@ router.get('/id/:id', async (req, res) => {
     }
 })
 
+// Delete image from ibm cloud, used before raffle is deleted.
+
+AWS.config = new AWS.Config({
+    accessKeyId: "da62c56fb48940a7aada0c86062cf9a6",
+    secretAccessKey: "34b18fbbeb724fe1e06a8e0d0210cd65f7f690db566eb1d6",
+    endpoint: 's3.us-east.cloud-object-storage.appdomain.cloud',
+    region: 'us-east-standard'
+});
+
+const cosClient = new AWS.S3();
+
+const _delImage = (itemNames, bucketName) => {
+
+    var deleteRequest = {
+        "Objects": itemNames      
+    }
+    return cosClient.deleteObjects({
+        Bucket: bucketName,
+        Delete: deleteRequest
+    }).promise()
+        .catch((e) => {
+            console.error(`ERROR: ${e.code} - ${e.message}\n`);
+        });
+};
+
 // Delete by id
 // ibm
 router.delete('/del/:id', async (req, res) => {
@@ -106,6 +132,17 @@ router.delete('/del/:id', async (req, res) => {
         if (!user) {
             return res.status(400).send({error: 'Document not found (Raffle Delete)'})
         }
+        let imgArr = []
+        user.images.forEach(element => {
+            imgArr.push({"Key": element.substring(element.lastIndexOf('/') + 1)})
+        })
+        let charArr = []
+        user.charityImgs.forEach(element => {
+            charArr.push({"Key": element.substring(element.lastIndexOf('/') + 1)})
+        })
+        //console.log(imgArr)
+        _delImage(imgArr, 'oc-drawing-images')
+        _delImage(charArr, 'oc-charity-images')
         res.send(user)
     } catch (e) {
         res.status(500).send()
