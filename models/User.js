@@ -93,7 +93,7 @@ const UserSchema = mongoose.Schema({
     }, 
     walletChances: {
         type: Number,
-        default: 0
+        default: 5
     },
     shippingAddress: {
         type: String
