@@ -215,7 +215,7 @@ router.post('/signup', async (req, res) => {
         obj[el] = req.body[el]
     })
     obj['password'] = await bcrypt.hash(obj['password'], 8)
-    obj['referralCode'] = shortid.generate().toUpperCase()
+    obj['referralCode'] = obj['name'].split(" ")[0] + shortid.generate().toUpperCase().slice(0,5)
     const user = new User(obj)
 
     user.save()
