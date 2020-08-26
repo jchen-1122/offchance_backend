@@ -260,6 +260,7 @@ router.post('/win/:id', async (req, res) => {
             }
         }
         raffle.winners.children = winners
+        raffle.archived = true
         await raffle.save()
         
         res.send(raffle)
