@@ -113,6 +113,9 @@ const UserSchema = mongoose.Schema({
     likedRaffles: {
         type: [ObjectId]
     },
+    recentRaffles: {
+        type: [ObjectId]
+    },
     rafflesEntered: {
         children: [UserRaffleSchema],
         child: UserRaffleSchema
