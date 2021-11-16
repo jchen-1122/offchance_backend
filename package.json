@@ -19,7 +19,7 @@
   "homepage": "https://github.com/jchen-1122/offchance_backend#readme",
   "dependencies": {
     "@sendgrid/mail": "^7.2.1",
-    "aws-sdk": "^2.738.0",
+    "aws-sdk": "^2.814.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "braintree": "^2.24.0",
